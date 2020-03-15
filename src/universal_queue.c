@@ -1,4 +1,4 @@
-BSD 3-Clause License
+/*BSD 3-Clause License
 
 Copyright (c) 2020, manexport<manexport@yeah.net>
 All rights reserved.
@@ -27,3 +27,20 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+#include <stdlib.h>
+#include <stdio.h>
+#include "universal_queue.h"
+
+typedef struct
+{
+	universal_queue_api api;
+}universal_queue_cb;
+
+
+ullong universal_queue_createx(ssize_t num, uqtype type)
+{
+	ullong ret = malloc(sizeof(universal_queue_cb));
+	return ret;
+}
+
