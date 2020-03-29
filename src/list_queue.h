@@ -1,4 +1,5 @@
-/*BSD 3-Clause License
+/*
+BSD 3-Clause License
 
 Copyright (c) 2020, manexport<manexport@yeah.net>
 All rights reserved.
@@ -28,54 +29,24 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include <stdlib.h>
-#include <stdio.h>
-#include "uqpub.h"
-#include "list_queue.h"
-#include "universal_queue.h"
+#ifndef __LIST_QUEUE_H__
+#define __LIST_QUEUE_H__
 
-llong_t universal_queue_create(ssize_t num, ttype_t type)
-{
-	if (num <= 0 || type == UNIVERSAL_QUEUE_UNKNOW)
-		return 0;
-	universal_queue_interface* ins = (universal_queue_interface*)malloc(sizeof(universal_queue_interface));
-	if (!ins)
-		return ins;
-	if (type == UNIVERSAL_QUEUE_LIST)
-	{
-		ins->any_queue = list_queue_create(ins, num);
-		self_register(ins);
-	}
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "config.h"
+
+	llong_t list_queue_create(llong_t ins,ssize_t num);
+	ssize_t list_queue_insert(llong_t ins, llong_t it);
+	ssize_t list_queue_remove(llong_t ins, llong_t it);
+	llong_t list_queue_destory(llong_t ins);
+	ssize_t list_queue_reset(llong_t ins);
+	llong_t list_queue_front(llong_t ins);
+	llong_t list_queue_tail(llong_t ins);
+
+
+#ifdef __cplusplus
 }
-ssize_t universal_queue_insert(llong_t ins, llong_t it)
-{
-	universal_queue_interface* hd = (universal_queue_interface*)ins;
-	return hd->insert(ins, it);
-}
-
-ssize_t universal_queue_remove(llong_t ins, llong_t it)
-{
-
-}
-
-llong_t universal_queue_destory(llong_t ins)
-{
-
-}
-
-ssize_t universal_queue_reset(llong_t ins)
-{
-
-}
-
-llong_t universal_queue_front(llong_t ins)
-{
-
-}
-
-llong_t universal_queue_tail(llong_t ins)
-{
-
-}
-
-
+#endif
+#endif // __UNIVERSAL_QUEUE_H__

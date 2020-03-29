@@ -30,52 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include <stdlib.h>
 #include <stdio.h>
-#include "uqpub.h"
-#include "list_queue.h"
-#include "universal_queue.h"
+#include "heap_queue.h"
 
-llong_t universal_queue_create(ssize_t num, ttype_t type)
-{
-	if (num <= 0 || type == UNIVERSAL_QUEUE_UNKNOW)
-		return 0;
-	universal_queue_interface* ins = (universal_queue_interface*)malloc(sizeof(universal_queue_interface));
-	if (!ins)
-		return ins;
-	if (type == UNIVERSAL_QUEUE_LIST)
-	{
-		ins->any_queue = list_queue_create(ins, num);
-		self_register(ins);
-	}
-}
-ssize_t universal_queue_insert(llong_t ins, llong_t it)
-{
-	universal_queue_interface* hd = (universal_queue_interface*)ins;
-	return hd->insert(ins, it);
-}
-
-ssize_t universal_queue_remove(llong_t ins, llong_t it)
-{
-
-}
-
-llong_t universal_queue_destory(llong_t ins)
-{
-
-}
-
-ssize_t universal_queue_reset(llong_t ins)
-{
-
-}
-
-llong_t universal_queue_front(llong_t ins)
-{
-
-}
-
-llong_t universal_queue_tail(llong_t ins)
-{
-
-}
 
 

@@ -30,52 +30,83 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include <stdlib.h>
 #include <stdio.h>
+#include "pthread.h"
 #include "uqpub.h"
 #include "list_queue.h"
-#include "universal_queue.h"
 
-llong_t universal_queue_create(ssize_t num, ttype_t type)
+typedef struct
 {
-	if (num <= 0 || type == UNIVERSAL_QUEUE_UNKNOW)
-		return 0;
-	universal_queue_interface* ins = (universal_queue_interface*)malloc(sizeof(universal_queue_interface));
-	if (!ins)
-		return ins;
-	if (type == UNIVERSAL_QUEUE_LIST)
-	{
-		ins->any_queue = list_queue_create(ins, num);
-		self_register(ins);
-	}
-}
-ssize_t universal_queue_insert(llong_t ins, llong_t it)
+	struct _list_node* next;
+	struct _list_node* prev;
+	pthread_mutex_t list_mutex;
+	llong_t node_num;
+}list_head;
+typedef struct _list_node
+{ 
+	struct _list_node* next;
+	struct _list_node* prev;
+	llong_t data;
+}list_node;
+static llong_t self_register(llong_t ins)
 {
 	universal_queue_interface* hd = (universal_queue_interface*)ins;
-	return hd->insert(ins, it);
+	hd->create = list_queue_create;
+	hd->insert = list_queue_insert;
+	hd->destory = list_queue_destory;
+	hd->front = list_queue_front;
+	hd->tail = list_queue_tail;
+	hd->reset = list_queue_reset;
+	return 0;
 }
 
-ssize_t universal_queue_remove(llong_t ins, llong_t it)
+static llong_t self_unregister(llong_t ins)
+{
+	universal_queue_interface* hd = (universal_queue_interface*)ins;
+	hd->create = hd->insert= hd->destory= hd->front= hd->tail= hd->reset=NULL;
+	return 0;
+}
+
+llong_t list_queue_create(llong_t ins, ssize_t num)
+{
+	list_head* llq = (list_head*)malloc(sizeof(list_head));
+	llq->next = llq->prev = NULL;
+	llq->node_num = 0;
+	pthread_mutex_init(&llq->list_mutex, NULL);
+	return llq;
+}
+
+ssize_t list_queue_insert(llong_t ins, llong_t it)
 {
 
 }
 
-llong_t universal_queue_destory(llong_t ins)
+ssize_t list_queue_remove(llong_t ins, llong_t it)
 {
 
 }
 
-ssize_t universal_queue_reset(llong_t ins)
+llong_t list_queue_destory(llong_t ins)
+{
+	list_head* llq = (list_head*)malloc(sizeof(list_head));
+	llq->next = llq->prev = NULL;
+	llq->node_num = 0;
+}
+
+ssize_t list_queue_reset(llong_t ins)
+{
+	list_head* llq = (list_head*)malloc(sizeof(list_head));
+	llq->next = llq->prev = NULL;
+	llq->node_num = 0;
+	pthread_mutex_init(&llq->list_mutex, NULL);
+}
+
+llong_t list_queue_front(llong_t ins)
 {
 
 }
 
-llong_t universal_queue_front(llong_t ins)
+llong_t list_queue_tail(llong_t ins)
 {
 
 }
-
-llong_t universal_queue_tail(llong_t ins)
-{
-
-}
-
 

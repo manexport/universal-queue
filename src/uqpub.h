@@ -1,4 +1,5 @@
-/*BSD 3-Clause License
+/*
+BSD 3-Clause License
 
 Copyright (c) 2020, manexport<manexport@yeah.net>
 All rights reserved.
@@ -28,54 +29,35 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include <stdlib.h>
-#include <stdio.h>
-#include "uqpub.h"
-#include "list_queue.h"
-#include "universal_queue.h"
+#ifndef __UQPUB_H__
+#define __UQPUB_H__
 
-llong_t universal_queue_create(ssize_t num, ttype_t type)
-{
-	if (num <= 0 || type == UNIVERSAL_QUEUE_UNKNOW)
-		return 0;
-	universal_queue_interface* ins = (universal_queue_interface*)malloc(sizeof(universal_queue_interface));
-	if (!ins)
-		return ins;
-	if (type == UNIVERSAL_QUEUE_LIST)
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "config.h"
+
+	typedef llong_t(*interface_queue_create)(ssize_t num);
+	typedef ssize_t(*interface_queue_insert)(llong_t ins, llong_t it);
+	typedef ssize_t(*interface_queue_remove)(llong_t ins, llong_t it);
+	typedef llong_t(*interface_queue_destory)(llong_t ins);
+	typedef ssize_t(*interface_queue_reset)(llong_t ins);
+	typedef llong_t(*interface_queue_front)(llong_t ins);
+	typedef llong_t(*interface_queue_tail)(llong_t ins);
+
+	typedef struct
 	{
-		ins->any_queue = list_queue_create(ins, num);
-		self_register(ins);
-	}
+		llong_t  any_queue;
+		interface_queue_create  create;
+		interface_queue_insert  insert;
+		interface_queue_remove  remove;
+		interface_queue_destory destory;
+		interface_queue_reset   reset;
+		interface_queue_front   front;
+		interface_queue_tail    tail;
+	}universal_queue_interface;
+
+#ifdef __cplusplus
 }
-ssize_t universal_queue_insert(llong_t ins, llong_t it)
-{
-	universal_queue_interface* hd = (universal_queue_interface*)ins;
-	return hd->insert(ins, it);
-}
-
-ssize_t universal_queue_remove(llong_t ins, llong_t it)
-{
-
-}
-
-llong_t universal_queue_destory(llong_t ins)
-{
-
-}
-
-ssize_t universal_queue_reset(llong_t ins)
-{
-
-}
-
-llong_t universal_queue_front(llong_t ins)
-{
-
-}
-
-llong_t universal_queue_tail(llong_t ins)
-{
-
-}
-
-
+#endif
+#endif // __UNIVERSAL_QUEUE_H__

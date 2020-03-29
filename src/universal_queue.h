@@ -54,45 +54,32 @@ extern "C" {
 
 #include "config.h"
 
-	typedef enum universal_queue_error_e
+	typedef enum
 	{
-		universal_queue_error_none=0x00,
-		universal_queue_invalid_arg,
-		universal_queue_err_unknown=-1,
-	}universal_queue_error;
-	typedef enum universal_queue_type_e
+		UNIVERSAL_QUEUE_ERROR_NONE = 0x00,
+		UNIVERSAL_QUEUE_INVALID_ARG,
+		UNIVERSAL_QUEUE_BUFFER_ERROR,
+		UNIVERSAL_QUEUE_ERR_FATAL,
+		UNIVERSAL_QUEUE_ERR_NOMEM,
+		UNIVERSAL_QUEUE_ERR_UNKNOWN = -1,
+	}UNIVERSAL_QUEUE_ERR;
+	typedef enum 
 	{
 		UNIVERSAL_QUEUE_LIST = 0x00,
 		UNIVERSAL_QUEUE_HEAP,
 		UNIVERSAL_QUEUE_ARRAY,
 		UNIVERSAL_QUEUE_UNKNOW = -1
 	}universal_queue_type;
+	typedef struct universal_queue_interface;
+	typedef universal_queue_type  ttype_t;
+	UNIVERSAL_QUEUE_EXTERN llong_t universal_queue_create(ssize_t num, ttype_t type);
+	UNIVERSAL_QUEUE_EXTERN ssize_t universal_queue_insert(llong_t ins, llong_t it);
+	UNIVERSAL_QUEUE_EXTERN ssize_t universal_queue_remove(llong_t ins, llong_t it);
+	UNIVERSAL_QUEUE_EXTERN llong_t universal_queue_destory(llong_t ins);
+	UNIVERSAL_QUEUE_EXTERN ssize_t universal_queue_reset(llong_t ins);
+	UNIVERSAL_QUEUE_EXTERN llong_t universal_queue_front(llong_t ins);
+	UNIVERSAL_QUEUE_EXTERN llong_t universal_queue_tail(llong_t ins);
 
-	//struct universal_queue_interfaces;
-	typedef universal_queue_type  uqtype;
-	//typedef universal_queue_error uqerror;
-	//typedef universal_queue_interfaces universal_queue_interfaces;
-
-	typedef struct {
-		ullong (*universal_queue_create)(ssize_t num, uqtype type);
-		ssize_t(*universal_queue_insert)(ullong ins, ullong it);
-		ssize_t(*universal_queue_remove)(ullong ins, ullong it);
-		ullong (*universal_queue_destory)(ullong ins);
-		ssize_t(*universal_queue_reset)(ullong ins);
-		ullong (*universal_queue_front)(ullong ins);
-		ullong (*universal_queue_tail)(ullong ins);
-	}universal_queue_api;
-
-
-universal_queue_api*  _universal_queue_api;
-
-#define universal_queue_create      _universal_queue_api->universal_queue_create
-#define universal_queue_insert      _universal_queue_api->universal_queue_insert
-#define universal_queue_remove      _universal_queue_api->universal_queue_remove
-#define universal_queue_destory     _universal_queue_api->universal_queue_destory
-#define universal_queue_reset       _universal_queue_api->universal_queue_reset
-#define universal_queue_front       _universal_queue_api->universal_queue_front
-#define universal_queue_tail        _universal_queue_api->universal_queue_tail
 #ifdef __cplusplus
 }
 #endif
